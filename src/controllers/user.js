@@ -153,7 +153,7 @@ const user = {
             .then((result) => {
                 if (result.rows[0]) {
                     const match = bcrypt.compareSync(req.body.password, result.rows[0].password)
-                    if (match && result.rows[0].status === 1) {
+                    if (match) {
                         userModels.delete(req.params.id)
                             .then((result) => {
                                 success(res, 200, result.rows, 'ok(akun deleted)')
@@ -161,9 +161,6 @@ const user = {
                             .catch((err) => {
                                 failed(res, 500, [], err.message)
                             });
-                    } else if (result.rows[0].status !== 1) {
-                        const email = result.rows[0].email
-                        failed(res, 400, [], 'Email('+ email +') is not Actived yet')
                     } else {
                         failed(res, 400, [], 'Password incorrect')
                     }
