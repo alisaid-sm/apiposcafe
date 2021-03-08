@@ -1,7 +1,6 @@
 {
-  "name": "skeleton-express",
+  "name": "apiposcafe",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -16,11 +15,20 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "json-sql": "^0.5.0",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.20",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.17",
-    "pg": "^8.5.1",
-    "redis": "^3.0.2"
-  }
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alisaid-sm/apiposcafe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alisaid-sm/apiposcafe/issues"
+  },
+  "homepage": "https://github.com/alisaid-sm/apiposcafe#readme",
+  "description": ""
 }

@@ -1,9 +1,10 @@
 const db = require('../configs/connection')
+const jsonSql = require('json-sql')()
 
-const example = {
+const category = {
     getAll: () => {
         return new Promise((resolve, reject) => {
-            db.query('SELECT * FROM example', (err, result) => {
+            db.query('SELECT * FROM category', (err, result) => {
                 if (err) {
                     reject(new Error(err));
                 } else {
@@ -14,18 +15,7 @@ const example = {
     },
     getById: (id) => {
         return new Promise((resolve, reject) => {
-            db.query('SELECT * FROM example WHERE id=$1', [id], (err, result) => {
-                if (err) {
-                    reject(new Error(err));
-                } else {
-                    resolve(result);
-                }
-            });
-        })
-    },
-    getByAbsent: (absent) => {
-        return new Promise((resolve, reject) => {
-            db.query(`SELECT * FROM example WHERE absent=${absent}`, (err, result) => {
+            db.query('SELECT * FROM category WHERE id=$1', [id], (err, result) => {
                 if (err) {
                     reject(new Error(err));
                 } else {
@@ -35,8 +25,17 @@ const example = {
         })
     },
     create: (data) => {
+        const sql = jsonSql.build({
+            type: 'insert',
+            table: 'category',
+            values: data
+        })
+        const query = {
+            text: sql.query.replace(/\$p/g, '$'),
+            values: Object.values(sql.values)
+          }
         return new Promise((resolve, reject) => {
-            db.query(`INSERT INTO example (name, absent) VALUES ('${data.name}', '${data.absent}')`, (err, result) => {
+            db.query(query , (err, result) => {
                 if (err) {
                     reject(new Error(err));
                 } else {
@@ -46,8 +45,20 @@ const example = {
         })
     },
     update: (data, id) => {
+        const sql = jsonSql.build({
+            type: 'update',
+            table: 'category',
+            condition: {
+                id
+            },
+            modifier: data
+        })
+        const query = {
+            text: sql.query.replace(/\$p/g, '$'),
+            values: Object.values(sql.values)
+          }          
         return new Promise((resolve, reject) => {
-            db.query(`UPDATE example SET name='${data.name}', absent='${data.absent}', updatedat='${data.updatedAt}' WHERE id=$1`, [id], (err, result) => {
+            db.query(query , (err, result) => {
                 if (err) {
                     reject(new Error(err));
                 } else {
@@ -58,7 +69,7 @@ const example = {
     },
     delete: (id) => {
         return new Promise((resolve, reject) => {
-            db.query(`DELETE FROM example WHERE id=${id}`, (err, result) => {
+            db.query(`DELETE FROM category WHERE id=${id}`, (err, result) => {
                 if (err) {
                     reject(new Error(err));
                 } else {
@@ -69,4 +80,4 @@ const example = {
     }
 }
 
-module.exports = example
+module.exports = category
